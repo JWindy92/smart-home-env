@@ -1,6 +1,11 @@
 version: '3.8'
 
 services:
+  api:
+    image: johnwid92/smart-home-api
+    restart: unless-stopped
+    ports:
+      - 5000:5000
   mqtt_broker:
     image: eclipse-mosquitto
     restart: unless-stopped
