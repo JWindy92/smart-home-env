@@ -5,7 +5,7 @@ services:
     depends_on:
       - mqtt_broker
       - mongodb
-    image: johnwid92/smart-home-api
+    image: johnwid92/smart-home-api:arm
     restart: unless-stopped
     ports:
       - 5000:5000
