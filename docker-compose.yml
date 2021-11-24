@@ -2,6 +2,9 @@ version: '3.8'
 
 services:
   api:
+    depends_on:
+      - mqtt_broker
+      - mongodb
     image: johnwid92/smart-home-api
     restart: unless-stopped
     ports:
@@ -14,3 +17,11 @@ services:
       - 9001:9001
     volumes:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/mongodb/data/db:/data/db
