@@ -9,6 +9,13 @@ services:
     restart: unless-stopped
     ports:
       - 5000:5000
+    environment:
+      - MONGOHOST=mongodb
+  yeelight_hub:
+    depends_on:
+      - mqtt_broker
+    image: johnwid92/yeelight-hub
+    restart: unless-stopped
   mqtt_broker:
     image: eclipse-mosquitto
     restart: unless-stopped
