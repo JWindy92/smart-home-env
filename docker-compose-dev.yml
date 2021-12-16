@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  api:
+    depends_on:
+      - mqtt_broker
+      - mongodb
+    image: johnwid92/smart-home-api:arm
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+    environment:
+      - MONGOHOST=mongodb
+    volumes:
+      - ~/Personal/go-smarthome-api/cmd/api:/app/api
+  yeelight_hub:
+    depends_on:
+      - mqtt_broker
+    image: johnwid92/yeelight-hub
+    restart: unless-stopped
+  mqtt_broker:
+    image: eclipse-mosquitto
+    restart: unless-stopped
+    ports:
+      - 1883:1883
+      - 9001:9001
+    volumes:
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  mongodb:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/mongodb/data/db:/data/db
