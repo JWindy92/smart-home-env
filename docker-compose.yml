@@ -11,6 +11,15 @@ services:
       - 5000:5000
     environment:
       - MONGOHOST=mongodb
+  dashboard:
+    depends_on:
+      - api
+    image: johnwid92/svelte-dashboard
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./config/.env:/usr/src/app/.env
   yeelight_hub:
     depends_on:
       - mqtt_broker
