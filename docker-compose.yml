@@ -1,3 +1,4 @@
+
 version: '3.8'
 
 services:
@@ -18,6 +19,8 @@ services:
     restart: unless-stopped
     ports:
       - 3000:3000
+    environment:
+      - APIHOST=api
     volumes:
       - ./config/.env:/usr/src/app/.env
   yeelight_hub:
@@ -35,7 +38,7 @@ services:
       - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
   mongodb:
-    image: mongo
+    image: arm64v8/mongo:4.4-focal
     restart: unless-stopped
     ports:
       - 27017:27017
